@@ -85,6 +85,26 @@ test('AGENT_DEFS ids are unique', () => {
   assert.deepEqual(dupes, [], `duplicate agent ids: ${JSON.stringify(dupes)}`);
 });
 
+test('qodercli supports discovery and keeps long prompts off argv', () => {
+  const qoder = AGENT_DEFS.find((agent) => agent.id === 'qodercli');
+  assert.equal(qoder.bin, 'qodercli');
+  assert.deepEqual(qoder.fallbackBins, ['qoder']);
+  assert.deepEqual(qoder.versionArgs, ['--version']);
+  assert.equal(qoder.promptViaStdin, true);
+  assert.equal(qoder.streamFormat, 'plain');
+  const args = qoder.buildArgs('x'.repeat(200_000), [], [], { model: 'default' });
+  assert.deepEqual(args, ['--print', '--input-format', 'text', '--output-format', 'text',
+    '--permission-mode', 'bypass_permissions']);
+});
+
+test('qodercli forwards model, workspace, directories and attachments as separate arguments', () => {
+  const qoder = AGENT_DEFS.find((agent) => agent.id === 'qodercli');
+  const args = qoder.buildArgs('prompt', ['/tmp/my image.png'], ['/repo/my skills', '', '/repo/designs'],
+    { model: 'custom/model' }, { cwd: '/tmp/my project' });
+  assert.deepEqual(args.slice(7), ['--cwd', '/tmp/my project', '--model', 'custom/model',
+    '--add-dir', '/repo/my skills', '--add-dir', '/repo/designs', '--attachment', '/tmp/my image.png']);
+});
+
 test('codex args disable plugins when OD_CODEX_DISABLE_PLUGINS is 1', () => {
   process.env.OD_CODEX_DISABLE_PLUGINS = '1';
   delete process.env.OD_CODEX_ENABLE_PLUGINS;

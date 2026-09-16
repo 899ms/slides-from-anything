@@ -1,4 +1,5 @@
 const AGENT_LABELS: Record<string, string> = {
+  qodercli: 'Qoder',
   claude: 'Claude',
   codex: 'Codex',
   devin: 'Devin',
@@ -16,6 +17,8 @@ const AGENT_LABELS: Record<string, string> = {
 };
 
 const AGENT_ALIASES: Record<string, string> = {
+  'qoder cli': 'qodercli',
+  qoder: 'qodercli',
   'claude code': 'claude',
   'codex cli': 'codex',
   'devin for terminal': 'devin',

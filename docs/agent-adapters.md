@@ -99,6 +99,17 @@ If both signals agree, detection is confident. If only one signal fires, we mark
 
 "P0/P1/P2" correspond to the roadmap phases in [`roadmap.md`](roadmap.md).
 
+### Qoder CLI
+
+The `qodercli` adapter detects `qodercli` (or the `qoder` alias) and probes
+`--version`. It uses print mode with text input over stdin and plain text output,
+passes the project working directory, attachments, and additional workspace
+directories, and uses `bypass_permissions` for the daemon's non-interactive runs.
+See [Qoder script mode](https://docs.qoder.com/cli/run-in-scripts).
+The model picker offers the CLI-config default and custom model IDs; automated
+model listing is not enabled. Detection confirms installation, not login: run
+`qodercli login` separately before starting a task.
+
 ## 4. Skill injection per adapter
 
 Skills travel into each agent via one of three strategies, in order of preference:

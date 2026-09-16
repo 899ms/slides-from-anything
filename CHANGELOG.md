@@ -6,6 +6,21 @@ This project follows semantic versioning from the public integration baseline.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-16
+
+### Added
+
+- Detect Qoder CLI through `qodercli` or its `qoder` alias, including the installed version.
+- Support non-interactive Qoder execution with stdin prompts, workspace directories,
+  attachments, and default or custom model selection.
+- Show a consistent Qoder label in the agent picker and document login requirements.
+
+### Validation
+
+- Guard, workspace typecheck, daemon build, and all 800 daemon tests passed.
+- Web tests: 285 passed; six existing localization coverage checks failed.
+- Local Qoder CLI 1.1.52 was detected; authenticated generation remains unverified.
+
 ## [1.0.1] - 2026-05-29
 
 ### Changed

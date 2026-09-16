@@ -208,6 +208,29 @@ function parseLineSeparatedModels(stdout) {
 
 export const AGENT_DEFS = [
   {
+    id: 'qodercli',
+    name: 'Qoder CLI',
+    bin: 'qodercli',
+    fallbackBins: ['qoder'],
+    versionArgs: ['--version'],
+    // --list-models requires authentication and emits human-readable output.
+    // Keep the CLI-config default and let users enter custom model IDs.
+    fallbackModels: [DEFAULT_MODEL_OPTION],
+    buildArgs: (_prompt, imagePaths = [], extraAllowedDirs = [], options = {}, runtimeContext = {}) => {
+      const args = ['--print', '--input-format', 'text', '--output-format', 'text',
+        '--permission-mode', 'bypass_permissions'];
+      if (runtimeContext.cwd) args.push('--cwd', runtimeContext.cwd);
+      if (options.model && options.model !== 'default') args.push('--model', options.model);
+      for (const dir of extraAllowedDirs) {
+        if (typeof dir === 'string' && dir.length > 0) args.push('--add-dir', dir);
+      }
+      for (const imagePath of imagePaths) args.push('--attachment', imagePath);
+      return args;
+    },
+    promptViaStdin: true,
+    streamFormat: 'plain',
+  },
+  {
     id: 'claude',
     name: 'Claude Code',
     bin: 'claude',
